@@ -11,7 +11,6 @@ from crewai.tools import BaseTool
 from langchain_openai import ChatOpenAI
 from typing import Type
 from pydantic import BaseModel, Field
-import json
 
 
 # Load environment variables
@@ -46,8 +45,13 @@ class ReadFileTool(BaseTool):
         """Execute the tool to read a file."""
         try:
             # Get the base directory (project root)
-            base_dir = Path(__file__).parent
-            file_path = base_dir / path
+            base_dir = Path(__file__).parent.resolve()
+            file_path = (base_dir / path).resolve()
+            
+            # Security: Ensure the resolved path is within the base directory
+            # This prevents path traversal attacks like '../../../etc/passwd'
+            if not str(file_path).startswith(str(base_dir)):
+                return f"Error: Access denied. Path '{path}' is outside the allowed directory."
             
             # Check if file exists
             if not file_path.exists():
