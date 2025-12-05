@@ -1,0 +1,26 @@
+# Application Configuration File
+# This file contains configuration variables for the application
+
+application:
+  name: "VulnerableApp"
+  version: "1.0.0"
+  debug_mode: true
+
+database:
+  host: "localhost"
+  port: 5432
+  name: "production_db"
+  # WARNING: Credentials should never be stored in plain text
+  username: "admin"
+  password: "admin123"
+
+security:
+  enable_input_validation: false
+  enable_sql_injection_protection: false
+  enable_xss_protection: false
+  allow_command_execution: true
+
+api:
+  endpoint: "https://api.example.com"
+  timeout: 30
+  max_retries: 3
